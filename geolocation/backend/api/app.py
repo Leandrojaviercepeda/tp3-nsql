@@ -1,7 +1,9 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 from functionsDB import generate_points, add_point, user_radio, get_position, get_local, get_points
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/generate-points')
 def load_chapters():
