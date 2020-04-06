@@ -89,7 +89,6 @@ function SimpleMenu() {
       >
         <MenuItem onClick={handleClose}><Link href='/home' color="inherit">Home</Link></MenuItem>
         <MenuItem onClick={handleClose}><Link href='/client' color="inherit">Client</Link></MenuItem>
-        <MenuItem onClick={handleClose}><Link href='/where' color="inherit">Where i am</Link></MenuItem>
       </Menu>
     </div>
   );
