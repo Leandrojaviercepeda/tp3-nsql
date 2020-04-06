@@ -11,12 +11,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleAlert({message}) {
+export default function SimpleAlert(props) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <Alert severity="error">{`${message}`}</Alert>
+      <Alert severity={props.color}>{`${props.message}`}</Alert>
     </div>
   );
 }

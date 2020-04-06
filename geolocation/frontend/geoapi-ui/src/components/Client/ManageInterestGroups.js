@@ -16,11 +16,14 @@ export default function ManageInterestGroups() {
     const [groupSelected, setGroupSelected] = useState('')
     const handleGroupSelected = group => setGroupSelected(group)
 
+    const [updateInterestGroups, setUpdateInterestGroups] = useState(false)
+    const handleUpdateIntGroups = bool => setUpdateInterestGroups(bool)
+
 
     return (
         <Container fixed>
             <Box textAlign="center" my={2}>
-                <AddPoint/>
+                <AddPoint handleUpdateIntGroups={handleUpdateIntGroups}/>
             </Box>
             <hr/>
             <Box textAlign="center" my={2}>
@@ -28,7 +31,7 @@ export default function ManageInterestGroups() {
                 <PointSelector optionSelected={handleGroupSelected}/>
                 {
                     groupSelected !== ''
-                    ? <Points interestGroup={groupSelected}/>
+                    ? <Points interestGroup={groupSelected} updateInterestGroups={updateInterestGroups} handleUpdateIntGroups={handleUpdateIntGroups}/>
                     : <p>¡Selecciona el grupo de interes para poder verlos!</p>
                 }
             </Box>

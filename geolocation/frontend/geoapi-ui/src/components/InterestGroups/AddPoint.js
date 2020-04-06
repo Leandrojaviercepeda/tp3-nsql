@@ -63,8 +63,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddPoint() {
+export default function AddPoint(props) {
   const classes = useStyles();
+
+  const [success, setSuccess] = useState({isSuccess: false, message: ''})
+  const handleSuccess = (isSuccess, message) => setSuccess({isSuccess: isSuccess, message: message})
 
   const [error, setError] = useState({isError: false, message: ''})
   const handleError = (isError=false, message='') => setError({isError: isError, message: message})
@@ -106,8 +109,12 @@ export default function AddPoint() {
       if (point.group === '' || point.name === '' || point.lat === ''|| point.lon === '')
         handleError(true, 'Todos los campos deben estar completos')
       else
-        savePoint()
-        .then(setPoint({ group: '' ,name: '', lat: '', lon: ''}))
+      savePoint()
+      .then(() => handleSuccess(true, 'Sitio agregado con Exito!'))
+      .then(setPoint({ group: '' ,name: '', lat: '', lon: ''}))
+      .then(() => props.handleUpdateIntGroups(true))
+      .then(() => setInterval(() => handleSuccess(false, ''), 5000))
+
     } catch (error) {
         handleError(true, error.message)
     }
@@ -119,15 +126,15 @@ export default function AddPoint() {
         <p>¡Añade sitios al grupo de interes que prefieras!</p>
         <FormControl className={classes.margin}>
             <InputLabel htmlFor="demo-customized-textbox">Nombre</InputLabel>
-            <BootstrapInput id="demo-customized-textbox" type="text" onChange={event => handleName(event.target.value)}/>
+            <BootstrapInput id="demo-customized-textbox" type="text" value={point.name} onChange={event => handleName(event.target.value)}/>
         </FormControl>
         <FormControl className={classes.margin}>
             <InputLabel error={error.isError} htmlFor="demo-customized-textbox">Latitud</InputLabel>
-            <BootstrapInput id="demo-customized-textbox" type="text" onChange={event => handleLat(event.target.value)}/>
+            <BootstrapInput id="demo-customized-textbox" type="text" value={point.lat} onChange={event => handleLat(event.target.value)}/>
         </FormControl>
         <FormControl className={classes.margin}>
             <InputLabel error={error.isError} htmlFor="demo-customized-textbox">Longitud</InputLabel>
-            <BootstrapInput id="demo-customized-textbox" type="text" onChange={event => handleLon(event.target.value)}/>
+            <BootstrapInput id="demo-customized-textbox" type="text" value={point.lon} onChange={event => handleLon(event.target.value)}/>
         </FormControl>
         <FormControl className={classes.margin}>
             <PointSelector optionSelected={handleGroup}/>
@@ -147,7 +154,12 @@ export default function AddPoint() {
         </FormGroup>
         {
             error.isError 
-            ? <SimpleAlert message={error.message}/>
+            ? <SimpleAlert message={error.message} color="error"/>
+            : ''
+        }
+        {
+            success.isSuccess 
+            ? <SimpleAlert message={success.message} color="success"/>
             : ''
         }
       </form>

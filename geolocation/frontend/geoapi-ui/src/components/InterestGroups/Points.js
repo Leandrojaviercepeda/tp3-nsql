@@ -25,14 +25,17 @@ export default function Points(props) {
     const handlePoints = points => setPoints(points)
 
     useEffect(() => {
+        console.log('rendering nearby points');
         const fetchPoints = async () => {
             const pointsFetched = await axios.get(`${ApiUrlBase}/${props.interestGroup}/local-list`)
             if (pointsFetched.data)
                 return handlePoints(pointsFetched.data)
         }
-        if(props.interestGroup !== '')
+        if (props.updateInterestGroups)
             fetchPoints()
-    }, [props.interestGroup])
+            .then(() => props.handleUpdateIntGroups(false))
+        fetchPoints()
+    }, [props])
 
     return (
         <div className={classes.root}>

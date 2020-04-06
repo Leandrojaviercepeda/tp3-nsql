@@ -31,23 +31,24 @@ export default function NearbyPoints(props) {
 
     const [points, setPoints ] = useState([])
     const handlePoints = points => setPoints(points)
-
+    
     useEffect(() => {
-        if(currentCoords.lat === '' && currentCoords.lon ==='')
-            navigator.geolocation.getCurrentPosition(pos => 
+
+        const getCurrentGeopos = async () => {
+            return await navigator.geolocation.getCurrentPosition(pos => 
                 handleCurrentCoords(pos.coords.latitude, pos.coords.longitude), 
                 err => err ? handleError(true, 'No fue posible obtener las coordenadas') : handleError(false));
-    }, [currentCoords.lat, currentCoords.lon])
+        }
 
-    useEffect(() => {        
         const fetchPoints = async () => {
             const pointsFetched = await axios.get(`${ApiUrlBase}/user-radio/${props.interestGroup}/${currentCoords.lon}/${currentCoords.lat}`)
             if (pointsFetched.data)
                 return handlePoints(pointsFetched.data)
         }
-        if(currentCoords.lat !== '' && currentCoords.lon !== '' && props.interestGroup !== '')
-            fetchPoints()
-    }, [currentCoords.lat, currentCoords.lon, props.interestGroup])
+
+        getCurrentGeopos().then(() => fetchPoints())
+            
+    }, [currentCoords.lat, currentCoords.lon, props])
 
     return (
         <div className={classes.root}>
