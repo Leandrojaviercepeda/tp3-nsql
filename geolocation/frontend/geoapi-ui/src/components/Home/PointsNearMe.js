@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 // Components
 import PointSelector from '../InterestGroups/PointSelector'
 import NearbyPoints from '../InterestGroups/NearbyPoints'
+import Map from '../Map/Map'
 
 // MAteria-UI
 import {
@@ -25,6 +26,14 @@ export default function PointsNearMe() {
                 ? <NearbyPoints interestGroup={groupSelected}/>
                 : <p>¡Selecciona el grupo de interes para poder verlos!</p>
             }
+            
+            </Box>
+            <Box>
+                {   
+                    groupSelected !== ''
+                    ? <Map interestGroup={groupSelected}/>
+                    : ''
+                }
             </Box>
         </Container>
     )
