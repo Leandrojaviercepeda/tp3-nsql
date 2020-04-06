@@ -46,4 +46,13 @@ def get_points():
         if(con.type(x)=='list'):
             points.append(x)
     return points
-    
+
+def get_local_points_with_data(point):
+    con = client()
+    sites = get_local(point)
+    sites_with_coords = []
+    for s in sites:
+        coords = get_position(point, s)
+        swc = {'name': s, 'lon':coords[0], 'lat': coords[1]}
+        sites_with_coords.append(swc)
+    return sites_with_coords
