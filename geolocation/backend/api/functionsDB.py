@@ -23,15 +23,13 @@ def add_point(point,longitude,latitude,name):
 
 def user_radio(point,longitude,latitude):
     con = client()
-    points = []
     points = con.georadius('g'+point,longitude,latitude,5,unit='km',withdist=True)
     return points
 
 def get_position(point,name):
     con = client()
-    coordinates = []
     coordinates = con.geopos('g'+point,name)
-    return coordinates
+    return coordinates[0]
 
 def get_local(point):
     con = client()
