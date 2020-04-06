@@ -5,11 +5,10 @@ from functionsDB import generate_points, add_point, user_radio, get_position, ge
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/generate-points')
+@app.before_first_request
 def load_chapters():
     """Generar puntos de interes."""
-    msj = generate_points()
-    return msj
+    generate_points()
 
 @app.route('/points/add/<point>/<longitude>/<latitude>/<name>')
 def add_point_to_points(point,longitude,latitude,name):
@@ -43,4 +42,3 @@ def get_points_of_interest():
 
 if __name__ == "__main__":
     app.run(host='localhost', port='5000', debug=True)
-
